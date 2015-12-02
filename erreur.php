@@ -7,7 +7,7 @@
  * Copyright 2015 © NuggaN85. All rights reserved.
  * Licensed under CC BY 3.0
  * http://creativecommons.org/licenses/by/3.0/
- * https://www.scrinder.com
+ * https://www.tchatland.fr
  */
 
 switch($_GET['erreur'])
