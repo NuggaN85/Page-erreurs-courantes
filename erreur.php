@@ -1,5 +1,4 @@
 <?php
-
 /*!
  * page_erreur v1.0
  * Dev: NuggaN85
@@ -9,7 +8,6 @@
  * http://creativecommons.org/licenses/by/3.0/
  * https://www.tchatland.fr
  */
-
 switch($_GET['erreur'])
 {
    case '400':
