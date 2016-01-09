@@ -1,22 +1,3 @@
-<IfModule mod_rewrite.c>
-RewriteEngine On
-Options +SymLinksIfOwnerMatch
-Options +FollowSymLinks
-Options -MultiViews
-</IfModule>
-
-<IfModule mod_autoindex.c>
-Options -Indexes
-</IfModule> 
-
-AddDefaultCharset UTF-8
-AddCharset UTF-8 .html .css .js
-
-<Files .htaccess>
-order allow,deny
-deny from all
-</files>
-
 #Liste des erreurs courantes.
 ErrorDocument 400 /error/erreur.php?erreur=400
 ErrorDocument 401 /error/erreur.php?erreur=401
