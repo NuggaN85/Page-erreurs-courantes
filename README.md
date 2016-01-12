@@ -8,7 +8,7 @@
  * Licensed under CC BY 3.0
 ```
 
-Crée un dossier nomé error a la racine de votre site site web exemple dans ( public_html ou www ) et y mettre le ficher erreur.php dans le dossier error.
+Mettre le dossier error a la racine de votre site site web exemple dans ( public_html ou www ).
 
 Ajoutez dans votre ".htaccess", ces lignes-ci a la fin de de votre htaccess.
 
