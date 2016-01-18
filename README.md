@@ -1,5 +1,3 @@
-# Page-Erreur
-
 ```
  * Dev: NuggaN85
  * Github: NuggaN85
