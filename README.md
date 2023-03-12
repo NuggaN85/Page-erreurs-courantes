@@ -20,6 +20,7 @@ ErrorDocument 402 /error/erreur.php?erreur=402
 ErrorDocument 403 /error/erreur.php?erreur=403
 ErrorDocument 404 /error/erreur.php?erreur=404
 ErrorDocument 405 /error/erreur.php?erreur=405
+ErrorDocument 405 /error/erreur.php?erreur=429
 ErrorDocument 500 /error/erreur.php?erreur=500
 ErrorDocument 501 /error/erreur.php?erreur=501
 ErrorDocument 502 /error/erreur.php?erreur=502
