@@ -19,6 +19,9 @@ switch($_GET['erreur'])
    case '405':
      $message = 'Méthode non autorisée.';
      break;
+   case '429':
+     $message = 'Trop de demandes.';
+     break;   
    case '500':
      $message = 'Erreur interne au serveur ou serveur saturé.';
      break;
