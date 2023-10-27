@@ -29,14 +29,19 @@ $message = htmlspecialchars($message, ENT_QUOTES, 'UTF-8');
 // Chemin du fichier de journalisation des erreurs
 $logFile = 'erreurs.log';
 
-// Rotation des journaux si la taille maximale est atteinte (1 Mo dans cet exemple)
-if (file_exists($logFile) && filesize($logFile) > 1000000) {
+// Rotation des journaux si la taille maximale est atteinte (10 Mo dans cet exemple)
+$maxLogSize = 10000000; // 10 Mo
+if (file_exists($logFile) && filesize($logFile) > $maxLogSize) {
     $backupLogFile = 'erreurs_' . date('Y-m-d_H-i-s') . '.log';
     rename($logFile, $backupLogFile);
 }
 
 // Journalisation de l'erreur dans un fichier de logs avec des informations supplémentaires
 $logMessage = '[' . date('Y-m-d H:i:s') . '] Code d\'erreur ' . $codeErreur . ' déclenché par ' . $_SERVER['REMOTE_ADDR'] . ' pour l\'URL : ' . $_SERVER['REQUEST_URI'] . PHP_EOL;
+
+// Inclure des informations supplémentaires pour le débogage
+$logMessage .= 'Informations supplémentaires : ' . json_encode($_SERVER) . PHP_EOL;
+
 file_put_contents($logFile, $logMessage, FILE_APPEND);
 
 // Envoi d'une notification aux administrateurs en cas d'erreur critique (par exemple, erreur 500)
