@@ -1,55 +1,49 @@
 <?php
-switch($_GET['erreur'])
-{
-   case '400':
-     $message = 'Échec de l\'analyse HTTP.';
-     break;
-   case '401':
-     $message = 'Le pseudo ou le mot de passe n\'est pas correct !';
-     break;
-   case '402':
-     $message = 'Le client doit reformuler sa demande avec les bonnes données de paiement.';
-     break;
-   case '403':
-     $message = 'Requête interdite !';
-     break;
-   case '404':
-     $message = 'La page n\'existe pas ou plus !';
-     break;
-   case '405':
-     $message = 'Méthode non autorisée.';
-     break;
-   case '429':
-     $message = 'Trop de demandes.';
-     break;   
-   case '500':
-     $message = 'Erreur interne au serveur ou serveur saturé.';
-     break;
-   case '501':
-     $message = 'Le serveur ne supporte pas le service demandé.';
-     break;
-   case '502':
-     $message = 'Mauvaise passerelle.';
-     break;
-   case '503':
-     $message = 'Service indisponible.';
-     break;
-   case '504':
-     $message = 'Trop de temps à la réponse.';
-     break;
-   case '505':
-     $message = 'Version HTTP non supportée.';
-     break;
-   default:
-     $message = 'Erreur !';
+// Tableau associatif des codes d'erreur HTTP et de leurs messages correspondants
+$erreurs = array(
+    '400' => 'Échec de l\'analyse HTTP.',
+    '401' => 'Le pseudo ou le mot de passe n\'est pas correct !',
+    '402' => 'Le client doit reformuler sa demande avec les bonnes données de paiement.',
+    '403' => 'Requête interdite !',
+    '404' => 'La page n\'existe pas ou plus !',
+    '405' => 'Méthode non autorisée.',
+    '429' => 'Trop de demandes.',
+    '500' => 'Erreur interne au serveur ou serveur saturé.',
+    '501' => 'Le serveur ne supporte pas le service demandé.',
+    '502' => 'Mauvaise passerelle.',
+    '503' => 'Service indisponible.',
+    '504' => 'Trop de temps à la réponse.',
+    '505' => 'Version HTTP non supportée.',
+    'default' => 'Erreur !'
+);
+
+// Valider et filtrer la valeur de $_GET['erreur']
+$codeErreur = array_key_exists($_GET['erreur'], $erreurs) ? $_GET['erreur'] : 'default';
+
+// Récupérer le message d'erreur correspondant
+$message = $erreurs[$codeErreur];
+
+// Échapper les caractères spéciaux dans le message d'erreur pour éviter les attaques XSS
+$message = htmlspecialchars($message, ENT_QUOTES, 'UTF-8');
+
+// Journalisation de l'erreur dans un fichier de logs avec des informations supplémentaires
+$logMessage = '[' . date('Y-m-d H:i:s') . '] Code d\'erreur ' . $codeErreur . ' déclenché par ' . $_SERVER['REMOTE_ADDR'] . ' pour l\'URL : ' . $_SERVER['REQUEST_URI'] . PHP_EOL;
+file_put_contents('erreurs.log', $logMessage, FILE_APPEND);
+
+// Envoi d'une notification aux administrateurs en cas d'erreur critique (par exemple, erreur 500)
+if ($codeErreur === '500') {
+    $adminEmail = 'admin@example.com';
+    $sujet = 'Erreur 500 sur le site';
+    $messageAdmin = 'Une erreur 500 s\'est produite pour l\'URL : ' . $_SERVER['REQUEST_URI'];
+    mail($adminEmail, $sujet, $messageAdmin);
 }
 
 echo '<html>
         <head>
-          <title>Erreur '.$_GET['erreur'].'</title>
+          <title>Erreur '.$codeErreur.'</title>
         </head>
         <body>
-          <h1>Erreur '.$_GET['erreur'].'</h1>
-          <p>'.utf8_decode($message).'</p>
+          <h1>Erreur '.$codeErreur.'</h1>
+          <p>'.$message.'</p>
         </body>
       </html>';
