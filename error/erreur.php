@@ -17,6 +17,12 @@ $erreurs = array(
     'default' => 'Erreur !'
 );
 
+// Fonction pour anonymiser les données sensibles (par exemple, adresses IP)
+function anonymiserDonnees($donnees) {
+    // Logique d'anonymisation (remplacement des trois derniers chiffres de l'adresse IP par des étoiles)
+    return preg_replace('/\.\d{1,3}$/', '.***', $donnees);
+}
+
 // Valider et filtrer la valeur de $_GET['erreur']
 $codeErreur = array_key_exists($_GET['erreur'], $erreurs) ? $_GET['erreur'] : 'default';
 
@@ -37,7 +43,7 @@ if (file_exists($logFile) && filesize($logFile) > $maxLogSize) {
 }
 
 // Journalisation de l'erreur dans un fichier de logs avec des informations supplémentaires
-$logMessage = '[' . date('Y-m-d H:i:s') . '] Code d\'erreur ' . $codeErreur . ' déclenché par ' . $_SERVER['REMOTE_ADDR'] . ' pour l\'URL : ' . $_SERVER['REQUEST_URI'] . PHP_EOL;
+$logMessage = '[' . date('Y-m-d H:i:s') . '] Code d\'erreur ' . $codeErreur . ' déclenché par ' . anonymiserDonnees($_SERVER['REMOTE_ADDR']) . ' pour l\'URL : ' . $_SERVER['REQUEST_URI'] . PHP_EOL;
 
 // Inclure des informations supplémentaires pour le débogage
 $logMessage .= 'Informations supplémentaires : ' . json_encode($_SERVER) . PHP_EOL;
